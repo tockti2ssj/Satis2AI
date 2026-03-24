@@ -1,1 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินความพึงพอใจ โครงการอบรม D506 จังหวัดอุดรธานี</title>
+    <!-- เปลี่ยนมาใช้ฟอนต์ Prompt (ไม่มีหัว) ที่ดูทันสมัยและเป็นมิตรมากขึ้น -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'], // กำหนดฟอนต์เริ่มต้น
+                    },
+                    colors: {
+                        primary: '#0ea5e9', // Sky blue
+                        secondary: '#0284c7',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ปรับแต่ง input radio ให้ดูสวยงามทันสมัย */
+        input[type="radio"] {
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            color: currentColor;
+            width: 1.4rem;
+            height: 1.4rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        input[type="radio"]::before {
+            content: "";
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #0ea5e9;
+        }
+        input[type="radio"]:checked {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+        }
+        input[type="radio"]:checked::before {
+            transform: scale(1);
+        }
+        
+        /* Label แบบ Pill (ปุ่มมน) */
+        .form-radio-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .form-radio-label:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .form-radio-label:has(input:checked) {
+            border-color: #0ea5e9;
+            background-color: #f0f9ff;
+            box-shadow: 0 0 0 1px #0ea5e9;
+        }
 
+        /* ไฮไลท์แถวเมื่อเอาเมาส์ชี้ในตารางประเมิน */
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        tbody tr:hover {
+            background-color: #f0f9ff !important;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased py-6 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Header Card -->
+        <div class="bg-gradient-to-br from-blue-600 to-cyan-500 rounded-2xl shadow-lg p-8 sm:p-12 text-center text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <span class="inline-block py-1 px-4 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium mb-4 tracking-wide">แบบประเมินความพึงพอใจออนไลน์</span>
+                <h1 class="text-3xl sm:text-4xl font-bold mb-4 leading-tight">โครงการอบรมการรายงานโรคติดต่ออันตราย<br class="hidden sm:block"/>และโรคติดต่อที่ต้องเฝ้าระวัง</h1>
+                <h2 class="text-lg sm:text-xl font-medium text-blue-50">ด้วยระบบ D506 จังหวัดอุดรธานี ปีงบประมาณ 2569</h2>
+            </div>
+            <!-- วงกลมตกแต่ง Background -->
+            <div class="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-16 -ml-16 w-48 h-48 bg-cyan-300 opacity-20 rounded-full blur-2xl"></div>
+        </div>
+
+        <!-- คำชี้แจง -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex items-start gap-4">
+            <div class="bg-blue-100 p-3 rounded-full text-blue-600 shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-light">
+                <strong class="text-slate-800 font-medium">คำชี้แจง:</strong> แบบประเมินนี้จัดทำขึ้นเพื่อสอบถามความพึงพอใจและรวบรวมข้อเสนอแนะ นำไปปรับปรุงและพัฒนาการจัดอบรมในครั้งต่อไป ขอความกรุณาทำเครื่องหมาย ✓ ในช่องที่ตรงกับความเป็นจริงมากที่สุด
+            </p>
+        </div>
+
+        <!-- ฟอร์มหลัก -->
+        <form id="surveyForm" class="space-y-6">
+            
+            <!-- ส่วนที่ 1: ข้อมูลทั่วไป -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                    <span class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium shadow-sm">1</span>
+                    ข้อมูลทั่วไปของผู้ตอบแบบประเมิน
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- ข้อ 1 เพศ -->
+                    <div>
+                        <p class="font-medium text-slate-700 mb-3">1. เพศ <span class="text-red-500">*</span></p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="form-radio-label"><input type="radio" name="gender" value="ชาย" required> ชาย</label>
+                            <label class="form-radio-label"><input type="radio" name="gender" value="หญิง"> หญิง</label>
+                            <label class="form-radio-label"><input type="radio" name="gender" value="อื่นๆ"> อื่นๆ</label>
+                        </div>
+                    </div>
+
+                    <!-- ข้อ 2 อายุ -->
+                    <div>
+                        <p class="font-medium text-slate-700 mb-3">2. อายุ <span class="text-red-500">*</span></p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="form-radio-label"><input type="radio" name="age" value="<25" required> ต่ำกว่า 25 ปี</label>
+                            <label class="form-radio-label"><input type="radio" name="age" value="25-35"> 25 - 35 ปี</label>
+                            <label class="form-radio-label"><input type="radio" name="age" value="36-45"> 36 - 45 ปี</label>
+                            <label class="form-radio-label"><input type="radio" name="age" value="46-55"> 46 - 55 ปี</label>
+                            <label class="form-radio-label"><input type="radio" name="age" value=">56"> 56 ปีขึ้นไป</label>
+                        </div>
+                    </div>
+
+                    <!-- ข้อ 3 ตำแหน่ง -->
+                    <div class="md:col-span-2">
+                        <p class="font-medium text-slate-700 mb-3">3. ตำแหน่ง / ลักษณะงานที่ปฏิบัติ <span class="text-red-500">*</span></p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="form-radio-label"><input type="radio" name="position" value="พยาบาลวิชาชีพ" required> พยาบาลวิชาชีพ</label>
+                            <label class="form-radio-label"><input type="radio" name="position" value="นักวิชาการสาธารณสุข"> นักวิชาการสาธารณสุข</label>
+                            <label class="form-radio-label"><input type="radio" name="position" value="เจ้าพนักงานสาธารณสุข"> เจ้าพนักงานสาธารณสุข</label>
+                            <label class="form-radio-label"><input type="radio" name="position" value="SRRT"> ผู้รับผิดชอบงานระบาดวิทยา (SRRT)</label>
+                            <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all">
+                                <input type="radio" name="position" value="อื่นๆ" id="posOtherRadio" class="shrink-0">
+                                <label for="posOtherRadio" class="text-slate-700 whitespace-nowrap cursor-pointer">อื่นๆ</label>
+                                <input type="text" id="posOtherText" name="position_other" placeholder="โปรดระบุ..." class="border-none focus:ring-0 outline-none w-full text-sm bg-transparent font-light" onfocus="document.getElementById('posOtherRadio').checked = true;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ข้อ 4 หน่วยงาน -->
+                    <div class="md:col-span-2">
+                        <p class="font-medium text-slate-700 mb-3">4. หน่วยงานต้นสังกัด <span class="text-red-500">*</span></p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="form-radio-label"><input type="radio" name="workplace" value="สสจ" required> สสจ.</label>
+                            <label class="form-radio-label"><input type="radio" name="workplace" value="สสอ"> สสอ.</label>
+                            <label class="form-radio-label"><input type="radio" name="workplace" value="รพ"> รพ.ศูนย์ / ทั่วไป / ชุมชน</label>
+                            <label class="form-radio-label"><input type="radio" name="workplace" value="รพสต"> รพ.สต.</label>
+                            <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all">
+                                <input type="radio" name="workplace" value="อื่นๆ" id="workOtherRadio" class="shrink-0">
+                                <label for="workOtherRadio" class="text-slate-700 whitespace-nowrap cursor-pointer">อื่นๆ</label>
+                                <input type="text" id="workOtherText" name="workplace_other" placeholder="โปรดระบุ..." class="border-none focus:ring-0 outline-none w-full text-sm bg-transparent font-light" onfocus="document.getElementById('workOtherRadio').checked = true;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ส่วนที่ 2: ความพึงพอใจ -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-3">
+                        <span class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium shadow-sm">2</span>
+                        ความพึงพอใจต่อการจัดการอบรม
+                    </h3>
+                    <div class="bg-slate-50 px-4 py-2 rounded-lg text-sm font-medium text-slate-600 border border-slate-100 shadow-sm inline-block">
+                        เกณฑ์: <span class="text-primary font-bold">4</span>=มากที่สุด, <span class="text-primary font-bold">3</span>=มาก, <span class="text-primary font-bold">2</span>=น้อย, <span class="text-primary font-bold">1</span>=น้อยที่สุด
+                    </div>
+                </div>
+                
+                <div class="overflow-hidden border border-slate-200 rounded-xl shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm sm:text-base text-left min-w-[650px]">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-4 font-semibold text-slate-700 w-8/12">รายการประเมิน</th>
+                                    <th class="p-3 font-bold text-center w-1/12 text-primary">4</th>
+                                    <th class="p-3 font-bold text-center w-1/12 text-primary">3</th>
+                                    <th class="p-3 font-bold text-center w-1/12 text-primary">2</th>
+                                    <th class="p-3 font-bold text-center w-1/12 text-primary">1</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <!-- ด้านที่ 1 -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="5" class="px-4 py-3 font-semibold text-slate-800">ด้านที่ 1: ด้านวิทยากรและเนื้อหาการอบรม</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">1.1 ความรู้ความสามารถ และการถ่ายทอดของวิทยากร</td>
+                                    <td class="text-center"><input type="radio" name="q1_1" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q1_1" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q1_1" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q1_1" value="1"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">1.2 ความชัดเจนของเนื้อหา และการฝึกปฏิบัติระบบ D506</td>
+                                    <td class="text-center"><input type="radio" name="q1_2" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q1_2" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q1_2" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q1_2" value="1"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">1.3 ความเหมาะสมของเอกสารและสื่อประกอบการอบรม</td>
+                                    <td class="text-center"><input type="radio" name="q1_3" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q1_3" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q1_3" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q1_3" value="1"></td>
+                                </tr>
+
+                                <!-- ด้านที่ 2 -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="5" class="px-4 py-3 font-semibold text-slate-800 border-t border-slate-200">ด้านที่ 2: ด้านสถานที่ สิ่งอำนวยความสะดวก และรูปแบบการจัด</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">2.1 ความเหมาะสมของสถานที่ อาหาร และระยะเวลาในการจัดอบรม</td>
+                                    <td class="text-center"><input type="radio" name="q2_1" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q2_1" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q2_1" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q2_1" value="1"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">2.2 ความพร้อมของอุปกรณ์คอมพิวเตอร์ และอินเทอร์เน็ตที่ใช้ฝึก</td>
+                                    <td class="text-center"><input type="radio" name="q2_2" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q2_2" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q2_2" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q2_2" value="1"></td>
+                                </tr>
+
+                                <!-- ด้านที่ 3 -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="5" class="px-4 py-3 font-semibold text-slate-800 border-t border-slate-200">ด้านที่ 3: ด้านการนำความรู้ไปใช้ประโยชน์</td>
+                                </tr>
+                                <tr class="bg-blue-50/30">
+                                    <td class="p-4 text-slate-700 font-light">3.1 ระดับความรู้ความเข้าใจของท่าน <span class="text-blue-600 font-medium bg-blue-100/50 px-2 py-0.5 rounded">"ก่อน"</span> เข้ารับการอบรม</td>
+                                    <td class="text-center"><input type="radio" name="q3_1" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q3_1" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q3_1" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q3_1" value="1"></td>
+                                </tr>
+                                <tr class="bg-green-50/30">
+                                    <td class="p-4 text-slate-700 font-light">3.2 ระดับความรู้ความเข้าใจของท่าน <span class="text-green-600 font-medium bg-green-100/50 px-2 py-0.5 rounded">"หลัง"</span> เข้ารับการอบรม</td>
+                                    <td class="text-center"><input type="radio" name="q3_2" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q3_2" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q3_2" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q3_2" value="1"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-4 text-slate-600 font-light">3.3 ความมั่นใจในการนำความรู้และระบบ D506 ไปใช้ปฏิบัติงานจริง</td>
+                                    <td class="text-center"><input type="radio" name="q3_3" value="4" required></td>
+                                    <td class="text-center"><input type="radio" name="q3_3" value="3"></td>
+                                    <td class="text-center"><input type="radio" name="q3_3" value="2"></td>
+                                    <td class="text-center"><input type="radio" name="q3_3" value="1"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ส่วนที่ 3: ข้อเสนอแนะ -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                    <span class="bg-primary text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium shadow-sm">3</span>
+                    ข้อเสนอแนะเพิ่มเติม
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <label class="block font-medium text-slate-700 mb-2">1. ปัญหา อุปสรรค และข้อเสนอแนะในการใช้งานระบบ D506</label>
+                        <textarea name="problems" rows="3" class="w-full p-4 border border-slate-300 rounded-lg focus:ring-4 focus:ring-blue-500/20 focus:border-primary outline-none transition-all resize-none bg-white font-light text-sm" placeholder="พิมพ์ปัญหาที่พบในพื้นที่ หรือข้อเสนอแนะเพื่อพัฒนาระบบ..."></textarea>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <label class="block font-medium text-slate-700 mb-2">2. สิ่งที่ประทับใจ หรือข้อเสนอแนะในการจัดอบรมครั้งต่อไป</label>
+                        <textarea name="suggestions" rows="3" class="w-full p-4 border border-slate-300 rounded-lg focus:ring-4 focus:ring-blue-500/20 focus:border-primary outline-none transition-all resize-none bg-white font-light text-sm" placeholder="เช่น หัวข้อที่อยากให้จัดอบรมเพิ่มเติม สิ่งที่ควรปรับปรุง..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ปุ่ม Submit -->
+            <div class="pt-4 pb-8 text-center">
+                <button id="submitBtn" type="submit" class="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 px-12 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300 text-lg flex items-center justify-center gap-2 mx-auto disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none tracking-wide">
+                    <svg id="submitIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    <span id="submitBtnText">ส่งแบบประเมิน</span>
+                </button>
+                <p class="mt-6 text-sm text-slate-500 font-medium">คณะผู้จัดโครงการฯ จังหวัดอุดรธานี ขอขอบพระคุณที่ให้ความร่วมมือ</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal แจ้งเตือนส่งสำเร็จ -->
+    <div id="successModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-100 transition-transform">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 shadow-inner">
+                <svg class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-2">บันทึกข้อมูลสำเร็จ</h3>
+            <p class="text-slate-600 mb-8 font-light">ขอขอบพระคุณสำหรับข้อคิดเห็นและข้อเสนอแนะของท่าน</p>
+            <button onclick="closeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-6 rounded-xl w-full transition-colors focus:outline-none focus:ring-4 focus:ring-slate-200">
+                ปิดหน้าต่าง
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ใส่ URL ที่ได้จาก Google Apps Script (Deploy > Web App) ลงไปตรงนี้
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx44sohclmaQ7QUu3DljrVe26zHAYOD28gIfR5IyrU0U4R0XSBNyM2sCdAlH0IsXha5RA/exec';
+        
+        const form = document.getElementById('surveyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const submitIcon = document.getElementById('submitIcon');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // เปลี่ยนสถานะปุ่มเป็นกำลังโหลด
+            submitBtn.disabled = true;
+            submitBtnText.textContent = 'กำลังส่งข้อมูล...';
+            submitIcon.classList.add('animate-spin');
+            submitIcon.innerHTML = '<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>';
+
+            // ส่งข้อมูลไปยัง Google Apps Script
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    // แสดง Modal เมื่อส่งสำเร็จ
+                    document.getElementById('successModal').classList.remove('hidden');
+                    resetSubmitButton();
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง');
+                    resetSubmitButton();
+                });
+        });
+
+        // ฟังก์ชันคืนค่าปุ่มกลับสู่สภาพเดิม
+        function resetSubmitButton() {
+            submitBtn.disabled = false;
+            submitBtnText.textContent = 'ส่งแบบประเมิน';
+            submitIcon.classList.remove('animate-spin');
+            submitIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>';
+        }
+
+        // ฟังก์ชันสำหรับปิด Modal และล้างค่าฟอร์ม
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            form.reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // ล้าง CSS พิเศษของ :has() ที่อาจค้างอยู่
+            document.querySelectorAll('.form-radio-label').forEach(label => {
+                label.style.borderColor = '';
+                label.style.backgroundColor = '';
+            });
+        }
+    </script>
+</body>
+</html>
